@@ -1,0 +1,84 @@
+nodes:
+  - id: imu_source
+    path: imu_reader.py
+    inputs: 
+      start: map_matching/start_stream
+    outputs: 
+      - imu_data
+      - system_init
+
+  # - id: map_loader
+  #   path: map_loader.py
+  #   outputs:
+  #     - map_data
+
+  - id: fusion_node
+    path: fusion.py
+    inputs:
+      imu: imu_source/imu_data
+      #map: map_loader/map_data
+    outputs:
+      - fused_pose
+
+  - id: position_estimator
+    path: dead_reckoning.py
+    inputs:
+      imu: imu_source/imu_data
+      previous_pose: update_ekf/updated_ekf
+      system_init: imu_source/system_init
+    outputs:
+      - position_estimate
+
+  # - id: noise_parameter_modificator
+  #   path: noise_parameter_modificator.py
+  #   outputs:
+  #     - noise_parameters
+
+  - id: predict_ekf
+    path: predict_ekf.py
+    inputs:
+      imu: imu_source/imu_data
+      previous_covariance: update_ekf/updated_ekf
+      system_init: imu_source/system_init
+      # noise_parameters: noise_parameter_modificator/noise_parameters
+    outputs:
+      - predicted_state
+
+  - id: find_searching_radius
+    path: find_searching_radius.py
+    inputs:
+      predicted_state: predict_ekf/predicted_state
+    outputs:
+      - searching_radius 
+
+  - id: map_matching
+    path: map_matching.py
+    inputs:
+      position_estimate: 
+        source: position_estimator/position_estimate
+        queue_size: 1
+      searching_radius: 
+        source: find_searching_radius/searching_radius
+        queue_size: 1
+      # static_map: map_loader/map_data
+    outputs:
+      - start_stream
+      - matched_position
+
+  - id: update_ekf
+    path: update_ekf.py
+    inputs:
+      position_estimate: 
+        source: position_estimator/position_estimate
+      predicted_state: 
+        source: predict_ekf/predicted_state
+      matched_position: 
+        source: map_matching/matched_position
+    outputs:
+      - updated_ekf
+
+  - id: visualizer
+    path: visualizer.py
+    inputs:
+      updated_ekf: update_ekf/updated_ekf
+    
