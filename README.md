@@ -20,6 +20,10 @@ The goal is to improve localization accuracy in environments where GPS signals a
 - 📊 Trajectory and state visualization
 
 ---
+## 🌐 Node I/O Connections
+![graph](assets/node_graph.png)
+
+---
 
 ## 📂 File Overview
 
