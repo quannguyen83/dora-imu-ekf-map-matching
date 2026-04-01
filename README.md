@@ -27,15 +27,15 @@ The goal is to improve localization accuracy in environments where GPS signals a
 
 ## 📂 File Overview
 
-- **data/**: Input datasets and map data for experiments.
-- **.gitignore**: Git ignore rules for data, logs, and temporary files.
-- **dataflow.yaml**: DORA pipeline configuration.
-- **dead_reckoning.py**: IMU-based motion propagation.
-- **find_searching_radius.py**: Search radius for candidate selection in map matching.
-- **fusion.py**: Unused
-- **imu_reader.py**: IMU data loading and preprocessing.
-- **map_loader.py**: Map data loading utilities.
-- **map_matching.py**: Trajectory-to-map alignment logic.
-- **predict_ekf.py**: EKF prediction step for computing covariance P.
-- **update_ekf.py**: EKF correction/update step.
-- **visualizer.py**: Result plotting and trajectory visualization.
+| File | Description |
+|---|---|
+| `data/` | Input datasets and map data for experiments |
+| `.gitignore` | Git ignore rules for data, logs, and temporary files |
+| `dataflow.yaml` | DORA pipeline configuration |
+| `dead_reckoning.py` | IMU-based motion propagation |
+| `find_searching_radius.py` | Search radius for candidate selection in map matching |
+| `imu_reader.py` | IMU data loading and preprocessing |
+| `map_matching.py` | Trajectory-to-map alignment logic |
+| `predict_ekf.py` | EKF prediction step for covariance \(P\) |
+| `update_ekf.py` | EKF correction/update step |
+| `visualizer.py` | Result plotting and trajectory visualization |
